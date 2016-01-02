@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!.vimrc
+!bash_profile
+
+# .../even if they are in subdirectories
+!*/
