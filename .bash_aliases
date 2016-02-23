@@ -2,6 +2,9 @@ shopt -s expand_aliases
 
 # Aliases 
 
+# Ubuntu
+alias sai="sudo apt-get install"
+
 # force CLI tool aliases
 alias flp='force login -u=jfontas@nfpa.org'
 alias flt='force login -i=test'
