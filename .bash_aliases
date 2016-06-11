@@ -6,17 +6,12 @@ shopt -s expand_aliases
 alias sai="sudo apt-get install"
 
 # force CLI tool aliases
-alias flp='force login -u=jfontas@nfpa.org'
+alias flp='force login'
 alias flt='force login -i=test'
-alias fltc='force login -i=test -u=jfontas@nfpa.org.config'
 alias fpac='force push -t ApexClass metadata/classes'
 alias fpat='force push -t ApexTrigger metadata/triggers'
 
 
-alias gtm='cd ~/Desktop/Mirror'
-alias gts='cd ~/Desktop/Mirror/Source'
-alias gtsi='cd ~/Desktop/Mirror/Source/NFPA_Internal'
-alias gtsisbr='cd ~/Desktop/Mirror/Source/NFPA_Internal/SalesforceWebToCaseTrigger/branches/RemoveNfpaAs'
 alias ls='ls -GFh'
 alias vrc='vim ~/.vimrc'
 
