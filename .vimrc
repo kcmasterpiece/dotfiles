@@ -12,9 +12,11 @@ Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'SirVer/ultisnips'
+Plugin 'PeterRincker/vim-argumentative'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 Plugin 'ervandew/supertab'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'vim-scripts/Tabmerge'
 Plugin 'matze/vim-move'
 Plugin 'elzr/vim-json'
 Plugin 'tpope/vim-surround'
@@ -24,7 +26,12 @@ Plugin 'tmhedberg/matchit'
 Plugin 'tpope/vim-dispatch'
 Plugin 'chrisbra/csv.vim'
 Plugin 'benmills/vimux'
+Plugin 'sjl/vitality.vim'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-fugitive'
 Bundle 'chrisgillis/vim-bootstrap3-snippets' 
+Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 " " The following are examples of different formats supported.
 " " Keep Plugin commands between vundle#begin/end.
 " " plugin on GitHub repo
@@ -71,7 +78,6 @@ set mouse=a
 set backspace=2
 filetype plugin indent on
 syntax on
-filetype plugin on
 colorscheme onedark
 
 "python from powerline.vim import setup as powerline_setup
@@ -86,23 +92,10 @@ augroup END " }
 set encoding=utf-8
 set shiftwidth=4 tabstop=4
 
-" vimrc config specifically for osx 
-if has("macunix")
-	let g:Powerline_symbols = 'fancy'
-	set guifont=Fira\ Mono\ for\ Powerline
-	source ~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim/plugin/powerline.vim
-	"Super tab settings
-	let g:SuperTabDefaultCompletionType = 'context'
-	let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-	let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:<c-x><c-o>","&completefunc:<c-x><c-n>"]
-	let g:SuperTabClosePreviewOnPopupClose = 1
-endif
+let g:Powerline_symbols = 'fancy'
 set nocompatible   " Disable vi-compatibility
-<<<<<<< HEAD
-=======
-set guifont=Consolas\ for\ Powerline
-source ~/.local/lib/python2.7/site-packages/powerline/bindings/vim/plugin/powerline.vim
->>>>>>> 03d767d20dc8d92f1b73ce4af0aefc1204db2f4d
+"set guifont=Droid\ Sans\ Mono\ for\ Powerline
+source ~/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim/plugin/powerline.vim
 set laststatus=2
 
 
@@ -112,19 +105,28 @@ let $BASH_ENV = "~/.bash_aliases"
 let mapleader = "\<Space>"
 
 " Remappings
+vnoremap <Leader>y :w !pbcopy<CR><CR>
+
+" Map leader h,j,k,l to move to panes in those directions
 nnoremap <Leader>h <C-w>h
 nnoremap <Leader>j <C-w>j 
 nnoremap <Leader>k <C-w>k
 nnoremap <Leader>l <C-w>l
+
+" Map alt-Left, Right arrows to move to left or right tab
+nnoremap <M-Left> gT
+nnoremap <M-Right> gt
+
 nnoremap <Leader>e $
 nnoremap <Leader>f ^
-nnoremap <Leader>v :VimuxRunLastCommand<CR>
+
 nnoremap <Leader>n :NERDTreeToggle<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>DC :DeleteColumn<CR>
-vmap <Leader>y "+y
-autocmd FileType cs nnoremap <buffer> <Leader>g :OmniSharpGotoDefinition<CR>
 
+nnoremap <Leader>vv :VimuxRunCommand(" " . expand('%'))<C-Left><C-Left><C-Left><Left>
+nnoremap <Leader>v :VimuxRunLastCommand<CR>
+autocmd FileType cs nnoremap <buffer> <Leader>g :OmniSharpGotoDefinition<CR>
 " vim-move
 let g:move_key_modifier = 'C'
 
@@ -133,9 +135,24 @@ let g:UltiSnipsExpandTrigger="<C-h>"
 let g:UltiSnipsJumpForwardTrigger="<C-j>"
 let g:UltiSnipsJumpBackwardTrigger="<C-k>"
 
+" Vitality settings for fixing things in iTerm2/Tmux
+" see :help vitality.txt for settings
+let g:vitality_fix_cursor = 1
+let g:vitality_normal_cursor = 0
+let g:vitality_insert_cursor = 0
+let g:vitality_fix_focus = 1
+" this should only be set in OS X
+let g:vitality_always_assume_iterm = 1
 
-autocmd FileType cs setlocal omnifunc=OmniSharp#Complete
+"syntastic recommended settings
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " NERDTree config
 " Open nerdtree if vim is opened by itself
@@ -144,14 +161,11 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Close nerdtree if quiting with just nerdtree open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-<<<<<<< HEAD
-
-=======
 "Super tab settings
-let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-o>"
-let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:<c-x><c-o>","&completefunc:<c-x><c-n>"]
-let g:SuperTabClosePreviewOnPopupClose = 1
+"let g:SuperTabDefaultCompletionType = 'context'
+"let g:SuperTabContextDefaultCompletionType = '<c-x><c-o>'
+"let g:SuperTabDefaultCompletionTypeDiscovery = ["&omnifunc:<c-x><c-o>","&completefunc:<c-x><c-n>"]
+"let g:SuperTabClosePreviewOnPopupClose = 1
 
 let &t_ti.="\e[1 q"
 let &t_SI.="\e[5 q"
@@ -160,4 +174,4 @@ let &t_te.="\e[0 q"
 
 "for fixing bg color in tmux
 set t_ut=
->>>>>>> 03d767d20dc8d92f1b73ce4af0aefc1204db2f4d
+
